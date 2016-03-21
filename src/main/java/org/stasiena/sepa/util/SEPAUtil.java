@@ -42,6 +42,54 @@ public class SEPAUtil {
 		return retorno;
 	}
 
+	public static String calcularDCCCC(String codBan, String codSuc, String cta) {
+		String id = null;
+		String dc = "";
+		
+		if ((codBan != null && codBan.length() == 4) && 
+		(codSuc != null && codSuc.length() == 4) &&
+		(cta != null && cta.length() == 10)) {
+			id = "00"+codBan+codSuc;
+			dc = calcPesos(id);
+			dc = dc + calcPesos(cta);
+			// Banco
+		} else {
+			throw new RuntimeException("Valores introducidos erróneos");
+		}
+		return dc;
+	}
+	
+	private static String calcPesos(String id) {
+		Integer [] pesos = {1,2,4,8,5,10,9,7,3,6};
+		
+		Integer [] aux = new Integer[10];
+		Integer sumAux = 0;
+		Integer resto = null;
+		String dci = null;
+		
+		for (int i = 0; i<10; i++) {
+			aux[i] = pesos[i] * new Integer(id.substring(i,i+1)); 
+		}
+		
+		for (int i = 0; i<10; i++) {
+			sumAux += aux[i];
+		}
+		resto = 11 - sumAux % 11;
+		if (resto == 11){
+			resto = 0;
+		} else if (resto == 10) {
+			resto = 1;
+		}
+		dci = String.format("%1d", resto);
+		return dci;
+	}
+	
+	/**
+	 * Este método calcula el nuevo dígito de control según la ISO 7064 MOD97-10
+	 * @param isoPais
+	 * @param id
+	 * @return
+	 */
 	public static String calcularDC(String isoPais, String id) {
 		String retorno = "";
 		String aux = null;
@@ -79,5 +127,15 @@ public class SEPAUtil {
 			return String.format("%" + (length - str.length()) + "s", "").replace(" ", String.valueOf(car)) + str;
 		else
 			return str;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(SEPAUtil.calcularDC("ES", "02622568Q"));
+		String codBan = "2038";
+		String codSuc = "1015";
+		String cta = "6000398831";
+		String dc = SEPAUtil.calcularDCCCC(codBan, codSuc, cta);
+		System.out.println("DC="+dc);
+		System.out.println("CCC="+codBan+codSuc+dc+cta);
 	}
 }

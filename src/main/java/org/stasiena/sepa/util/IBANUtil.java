@@ -17,9 +17,18 @@ public class IBANUtil {
 	}
 	
 	public static void main(String []args) {
-		System.out.println("IBAN:" + calcular("ES", "00120345030000067890"));
+		System.out.println("IBAN:" + calcular("ES", "20381015916000398831"));
 	}
+
+	// CCC:			 2038 1015 91 6000398831
+	// IBAN: 	ES52 2038 1015 91 6000398831
 	
-	// CCC:		0012 0345 03 0000067890
+	// CCC:			 0012 0345 03 0000067890
 	// IBAN:	ES07 0012 0345 03 0000067890
+	
+	// CCC:			 0030 1122 61 0004228271
+	// IBAN:	ES24 0030 1122 61 0004228271
+	
+// Otro ejemplo: 00301122610004228271
+	
 }
