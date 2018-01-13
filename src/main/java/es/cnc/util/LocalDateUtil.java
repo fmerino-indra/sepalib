@@ -1,10 +1,12 @@
 package es.cnc.util;
 
+import java.text.DateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
@@ -152,6 +154,14 @@ public class LocalDateUtil {
 		LocalDateTime to = fromLastYearMonth(2016, 2);
 		System.out.println(toISOLocalDateTimeNoMillis(to));
 
+		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+		System.out.println(dtf.format(from));
+		TemporalAccessor ta = null;
+		ta = dtf.parse("1/01/18");
+		
+		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+		System.out.println(df.format(localDateTimeToDate(from)));
+		
 	}
 	
 }
